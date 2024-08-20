@@ -1,0 +1,18 @@
+header {
+    display: grid;
+    align-items: flex-end;
+    margin-top: 5rem;
+    width: 50rem;
+    grid-template-columns: 1fr auto 1fr;
+    gap: var(--gap);
+}
+
+@media screen and (max-width: 800px) {
+  header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column-reverse;
+  }
+}

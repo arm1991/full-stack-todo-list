@@ -1,0 +1,11 @@
+.todo-title-text {
+    background: linear-gradient(274deg, #c0f 0%, #5756ff 35.29%, #07fdfd 100%);
+    background-clip: text;
+    font-size: 2.5rem;
+    font-style: normal;
+    font-weight: 700;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+    text-align: center;
+}

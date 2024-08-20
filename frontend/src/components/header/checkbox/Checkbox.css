@@ -1,0 +1,27 @@
+.checkbox-container {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    > label {
+        cursor: pointer;
+        background: linear-gradient(
+            274deg,
+            #c0f 0%,
+            #5756ff 35.29%,
+            #07fdfd 100%
+        );
+        font-size: 20px;
+        background-clip: text;
+        font-style: normal;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-left: 0.5rem;
+    }
+
+    > input {
+        width: 28px;
+        height: 28px;
+    }
+}
