@@ -1,0 +1,57 @@
+/* <div className="error-modal">
+      <div className="error-content">
+        <h2 className="error-text">{message}</h2>
+        <button onClick={handleModalClose} className="error-close">
+          X
+        </button>
+      </div>
+    </div> */
+
+.error-modal {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.error-content {
+  width: 400px;
+  padding: 24px;
+  opacity: 1;
+  background-color: white;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.error-text {
+  text-align: center;
+  color: red;
+  font-size: 24px;
+}
+
+.error-close {
+  border: none;
+  text-align: center;
+  text-transform: uppercase;
+  border-radius: 16px;
+  padding: 8px 24px;
+  cursor: pointer;
+  color: #fff;
+  background: linear-gradient(64deg, #07fdfd 0%, #4d69fe 46.88%, #c0f 100%);
+}
+
+.error-close:hover {
+  opacity: 0.9;
+}
+
+.error-close:active {
+  opacity: 0.7;
+}

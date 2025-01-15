@@ -1,125 +1,45 @@
-const http = require("http");
+const express = require("express");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
+const mongoose = require("mongoose");
 
-const addTodo = require("./services/addTodo");
-const deleteTodo = require("./services/deleteTodo");
-const getAllTodos = require("./services/getAllTodos");
-const updateTodo = require("./services/updateTodo");
-const updateTodoDone = require("./services/updateTodoDone");
-
-// jnjel handleRequsts teghy es dnel petqi vroviranc argumentere poxel :)
+const router = require("./router/index");
+const errorMiddleware = require("./middlewares/error-middleware");
 
 dotenv.config();
 
+const app = express();
 const PORT = process.env.PORT || 8000;
 
-const server = http.createServer(async (req, res) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader(
-        "Access-Control-Allow-Methods",
-        "GET, POST, PUT, DELETE, OPTIONS"
-    );
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+// Middlewares
+app.use(express.json());
+app.use(cookieParser());
+app.use(
+  cors({
+    credentials: true,
+    origin: process.env.CLIENT_URL,
+  })
+);
 
-    // Handle preflight requests
-    if (req.method === "OPTIONS") {
-        res.writeHead(204);
-        res.end();
-        return;
-    }
+// router
+app.use("/api", router);
 
-    const url = req.url;
-    const method = req.method.toUpperCase();
-
-    if (url === "/todos" && method === "GET") {
-        try {
-            const todos = await getAllTodos();
-            const data = JSON.stringify(todos);
-            res.writeHead(200, { "Content-Type": "application/json" });
-            res.end(data);
-        } catch (err) {
-            console.error(err);
-            res.writeHead(500, { "Content-Type": "text/plain" });
-            res.end("Internal Server Error");
-        }
-    }
-
-    if (url === "/addTodo" && method === "POST") {
-        let body = "";
-        req.on("data", (chunk) => {
-            body += chunk.toString();
-        });
-        req.on("end", async () => {
-            try {
-                const newTodo = JSON.parse(body);
-                const todos = await addTodo(newTodo);
-                const data = JSON.stringify(todos);
-                res.writeHead(201, { "Content-Type": "application/json" });
-                res.end(data);
-            } catch (err) {
-                console.error(err);
-                res.writeHead(500, { "Content-Type": "text/plain" });
-                res.end("Internal Server Error");
-            }
-        });
-    }
-
-    if (url === "/deleteTodo" && method === "DELETE") {
-        let body = "";
-        req.on("data", (chunk) => {
-            body += chunk.toString();
-        });
-        req.on("end", async () => {
-            try {
-                const deleteTodoID = JSON.parse(body);
-                await deleteTodo(deleteTodoID);
-                res.writeHead(201, { "Content-Type": "application/json" });
-                res.end("deleted");
-            } catch (err) {
-                console.error(err);
-                res.writeHead(500, { "Content-Type": "text/plain" });
-                res.end("Internal Server Error");
-            }
-        });
-    }
-
-    if (url === "/updateTodo" && method === "PUT") {
-        let body = "";
-        req.on("data", (chunk) => {
-            body += chunk.toString();
-        });
-        req.on("end", async () => {
-            try {
-                const updateTodoData = JSON.parse(body);
-                await updateTodo(updateTodoData);
-                res.writeHead(200, { "Content-Type": "application/json" });
-                res.end("updated");
-            } catch (err) {
-                console.error(err);
-                res.writeHead(500, { "Content-Type": "text/plain" });
-                res.end("Internal Server Error");
-            }
-        });
-    }
-
-    if (url === "/updateTodoDone" && method === "PUT") {
-        let body = "";
-        req.on("data", (chunk) => {
-            body += chunk.toString();
-        });
-        req.on("end", async () => {
-            try {
-                const updateTodoId = JSON.parse(body);
-                await updateTodoDone(updateTodoId);
-                res.writeHead(200, { "Content-Type": "application/json" });
-                res.end("updated");
-            } catch (err) {
-                console.error(err);
-                res.writeHead(500, { "Content-Type": "text/plain" });
-                res.end("Internal Server Error");
-            }
-        });
-    }
+// Handle preflight requests
+app.options("*", (req, res) => {
+  res.status(204).end();
 });
 
-server.listen(PORT, () => console.log(`server started on PORT ${PORT}`));
+// middleware must be the last line
+app.unsubscribe(errorMiddleware);
+
+const start = async () => {
+  try {
+    await mongoose.connect(process.env.DB_URL);
+    app.listen(PORT, () => console.log(`Server started on PORT ${PORT}`));
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
+start();

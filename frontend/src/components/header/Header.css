@@ -1,10 +1,31 @@
 header {
-    display: grid;
-    align-items: flex-end;
-    margin-top: 5rem;
-    width: 50rem;
-    grid-template-columns: 1fr auto 1fr;
-    gap: var(--gap);
+  display: grid;
+  align-items: flex-end;
+  margin-top: 5rem;
+  width: 50rem;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 48px;
+}
+
+.log-out {
+  min-width: 100px;
+  cursor: pointer;
+  border: none;
+  text-align: center;
+  text-transform: uppercase;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 16px;
+  padding: 12px 24px;
+  background: linear-gradient(64deg, #07fdfd 0%, #4d69fe 46.88%, #c0f 100%);
+}
+
+.log-out:hover {
+  opacity: 0.9;
+}
+
+.log-out:active {
+  opacity: 0.7;
 }
 
 @media screen and (max-width: 800px) {

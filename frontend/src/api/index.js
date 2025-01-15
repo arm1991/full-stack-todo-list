@@ -1,43 +1,37 @@
 import axios from "axios";
 
-export const SERVER_URL = "http://localhost:8000";
-export const UPLOAD_HEADER = {
-    headers: { "Content-Type": "multipart/form-data" },
-};
+export const SERVER_URL = "http://localhost:8000/api";
 
 const $api = axios.create({
-    baseURL: SERVER_URL,
-    // withCredentials: true,
+  baseURL: SERVER_URL,
+  withCredentials: true,
 });
 
-export const $GET = async (route) => {
-    try {
-        return await $api.get(route);
-    } catch (err) {
-        throw new Error(err.message);
-    }
-};
+$api.interceptors.request.use((config) => {
+  config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
+  return config;
+});
 
-export const $DELETE = async (route, sendData) => {
-    try {
-        return await $api.delete(route, { data: sendData });
-    } catch (err) {
-        throw new Error(err.message);
-    }
-};
+$api.interceptors.response.use(
+  (config) => {
+    return config;
+  },
+  async (err) => {
+    const originalRequest = err.config;
+    if (err.response.status === 401 && err.config && !err.config._isRetry) {
+      try {
+        const { data } = await axios.get(`${SERVER_URL}/refresh`, {
+          withCredentials: true,
+        });
 
-export const $POST = async (route, sendData, headers) => {
-    try {
-        return await $api.post(route, sendData, headers || {});
-    } catch (err) {
-        throw new Error(err.message);
+        localStorage.setItem("token", data.accessToken);
+        return $api.request(originalRequest);
+      } catch (e) {
+        console.log("Not Authorizrd");
+      }
     }
-};
+    throw err;
+  }
+);
 
-export const $PUT = async (route, sendData, headers) => {
-    try {
-        return await $api.put(route, sendData, headers || {});
-    } catch (err) {
-        throw new Error(err.message);
-    }
-};
+export default $api;

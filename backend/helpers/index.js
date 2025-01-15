@@ -1,14 +1,27 @@
-const fs = require("fs/promises");
-
-module.exports.getFileData = async function (path) {
-    const data = await fs.readFile(path, { encoding: "utf8" });
-    return JSON.parse(data);
+module.exports.findTodoById = function (todos, id) {
+  return todos.find((todo) => todo.id === id);
 };
 
-module.exports.setFileData = async function (path, data) {
-    fs.writeFile(path, JSON.stringify(data));
+module.exports.validateItems = function (...args) {
+  return !args.every((item) => item !== undefined);
 };
 
-module.exports.getUniqueId = function () {
-    return JSON.stringify(Date.now());
+module.exports.getTodosFromDb = async function (dbPath, entityName = "todos") {
+  const data = await getFileData(dbPath);
+  const todos = data[entityName];
+  if (!todos) {
+    throw new Error("No Data!");
+  }
+  return { data, todos };
+};
+
+module.exports.updateTodosInDb = async function (
+  dbPath,
+  todos,
+  entityName = "todos"
+) {
+  const data = await getFileData(dbPath);
+  data[entityName] = todos;
+  await setFileData(dbPath, data);
+  return todos;
 };

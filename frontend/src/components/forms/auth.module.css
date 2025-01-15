@@ -1,0 +1,98 @@
+.form {
+  margin-top: 60px;
+  height: min-content;
+  width: 360px;
+  background-color: white;
+  padding: 20px 10px;
+  border-radius: 10px;
+  gap: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.formContainer {
+  display: grid;
+  grid-template-areas:
+    "label error"
+    "content content";
+  flex-direction: column;
+}
+
+.formValid {
+  display: flex;
+  gap: 12px;
+}
+
+.formImg {
+  width: 100px;
+  cursor: pointer;
+}
+
+.logo {
+  width: 100%;
+  object-fit: cover;
+  overflow: hidden;
+}
+
+.formInput {
+  grid-area: content;
+  width: 300px;
+  height: 40px;
+  border-radius: 10px;
+  border: 2px solid #e2e6ee;
+  padding: 12px 8px;
+  margin-top: 10px;
+}
+
+.formSmallInput {
+  grid-area: content;
+  width: 144px;
+  height: 40px;
+  border-radius: 10px;
+  padding: 12px 8px;
+  border: 2px solid #e2e6ee;
+  align-self: flex-end;
+  margin-top: 10px;
+}
+
+.formButton {
+  min-width: 300px;
+  cursor: pointer;
+  border: none;
+  text-align: center;
+  text-transform: uppercase;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 16px;
+  padding: 12px 24px;
+  background: linear-gradient(64deg, #07fdfd 0%, #4d69fe 46.88%, #c0f 100%);
+}
+
+.formButton:hover {
+  opacity: 0.9;
+}
+
+.formButton:active {
+  opacity: 0.7;
+}
+
+.span {
+  grid-area: label;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.error {
+  color: red;
+  grid-area: error;
+  text-align: right;
+  font-size: 16px;
+  font-weight: 400;
+  justify-self: flex-end;
+  width: max-content;
+}
+
+.smallError {
+  width: 80px !important;
+}

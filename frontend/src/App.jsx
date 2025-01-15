@@ -1,37 +1,44 @@
-import { useCallback, useEffect, useState } from "react";
-import Header from "./components/header/Header";
-import Main from "./components/main/Main";
-import { useDispatch } from "react-redux";
-import { $GET } from "./api";
-import { setData } from "./redux/slices/todos.slice";
+import { createContext, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { checkAuth, removeAuthError } from "./redux/slices/auth.slice";
+import Auth from "./components/Auth";
+import Content from "./components/Content";
+import ErrorModal from "./components/ErrorModal";
+
+export const AuthContext = createContext();
 
 function App() {
-    const [hideDone, setHideDone] = useState(false);
-    const dispatch = useDispatch();
+  const [hideDone, setHideDone] = useState(false);
+  const dispatch = useDispatch();
+  const authStore = useSelector((state) => state.auth);
 
-    const get = useCallback(async () => {
-        try {
-            const { data } = await $GET("/todos");
-            dispatch(setData(data));
-        } catch (err) {
-            console.error(err.message);
-        }
-    });
+  const changeHideDone = () => {
+    setHideDone(() => !hideDone);
+  };
 
-    const changeHideDone = () => {
-        setHideDone(() => !hideDone);
-    };
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      dispatch(checkAuth());
+    }
+  }, [dispatch]);
 
-    useEffect(() => {
-        get();
-    }, []);
-
-    return (
-        <>
-            <Header changeHideDone={changeHideDone} hideDone={hideDone} />
-            <Main hideDone={hideDone} get={get} />
-        </>
-    );
+  return (
+    <>
+      <AuthContext.Provider value={authStore}>
+        {authStore.isError && (
+          <ErrorModal
+            message={authStore.errorMessage}
+            handleModalClose={() => dispatch(removeAuthError())}
+          />
+        )}
+        {!authStore.isAuth ? (
+          <Auth />
+        ) : (
+          <Content changeHideDone={changeHideDone} hideDone={hideDone} />
+        )}
+      </AuthContext.Provider>
+    </>
+  );
 }
 
 export default App;
