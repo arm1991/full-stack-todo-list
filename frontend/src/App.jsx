@@ -1,9 +1,9 @@
 import { createContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { checkAuth, removeAuthError } from "./redux/slices/auth.slice";
+import { checkAuth, removeAuthError } from "./store/slices/auth.slice";
 import Auth from "./components/Auth";
 import Content from "./components/Content";
-import ErrorModal from "./components/ErrorModal";
+import ErrorModal from "./components/Error/ErrorModal";
 
 export const AuthContext = createContext();
 

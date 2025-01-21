@@ -4,7 +4,7 @@ import {
   deleteTodo,
   editTodo,
   setIsEditing,
-} from "../../../../redux/slices/todos.slice";
+} from "../../../../store/slices/todos.slice";
 import deleteImg from "./assets/delete.svg";
 import editImg from "./assets/edit.svg";
 import markAsDoneImg from "./assets/mark-as-done.svg";
@@ -41,17 +41,17 @@ const Todo = ({ todo }) => {
           <div className="images">
             <img
               src={deleteImg}
-              onClick={() => handleDeleteTodo(todo?._id)}
+              onClick={() => handleDeleteTodo(todo?.id)}
               alt="delete"
             />
             <img
               src={editImg}
-              onClick={() => handleEditingTodo(todo?._id)}
+              onClick={() => handleEditingTodo(todo?.id)}
               alt="edit"
             />
             <img
               src={markAsDoneImg}
-              onClick={() => handleEditTodo(todo?._id, "done", !todo.done)}
+              onClick={() => handleEditTodo(todo?.id, "done", !todo.done)}
               alt="mark as done"
             />
           </div>
@@ -66,7 +66,7 @@ const Todo = ({ todo }) => {
           />
           <button
             className="editing-save"
-            onClick={() => handleSaveEditedTodo(todo?._id, "title", input)}
+            onClick={() => handleSaveEditedTodo(todo?.id, "title", input)}
           >
             save
           </button>

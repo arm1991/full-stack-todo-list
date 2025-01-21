@@ -111,13 +111,14 @@ class UserService {
   async updateTodo(userId, todoId, propertyName, value) {
     const userData = await this.getUserData(userId);
 
-    const todo = userData.todos.find((todo) => todo?._id.toString() === todoId);
+    const todo = userData.todos.find((todo) => todo?.id === todoId);
 
     if (!todo) {
       throw ApiError.UnauthorizedError();
     }
 
     todo[propertyName] = value;
+    userData.markModified("todos");
 
     await userData.save();
 
@@ -127,13 +128,12 @@ class UserService {
   async deleteTodo(userId, todoId) {
     const userData = await this.getUserData(userId);
 
-    if (userData.todos.length === 1) {
-      throw ApiError.badRequest("You must have at least one Todo");
-    }
+    userData.todos = userData.todos.filter((todo) => todo?.id !== todoId);
 
-    userData.todos = userData.todos.filter(
-      (todo) => todo?._id.toString() !== todoId
-    );
+    if (userData.todos.length === 0) {
+      userData.todos = [];
+    }
+    console.log(userData);
 
     await userData.save();
     return userData;

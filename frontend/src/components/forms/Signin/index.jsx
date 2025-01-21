@@ -1,13 +1,14 @@
-import { Field, Form, Formik, ErrorMessage } from "formik";
+import { Form, Formik } from "formik";
 import { initialValues, validationSchema } from "./values";
 import style from "../auth.module.css";
+import InputItem from "../../UI/input-item/InputItem";
 
 const Signin = ({ setSignin, handleSubmit }) => {
   const handleRegistrate = () => {
     setSignin((prev) => !prev);
   };
 
-  const handleChange = (e, formik) => {
+  const handleInputChange = (e, formik) => {
     const { name, value } = e.target;
 
     const updatedValues = {
@@ -27,37 +28,24 @@ const Signin = ({ setSignin, handleSubmit }) => {
       >
         {(formik) => (
           <Form className={style.form}>
-            <div className={style.formContainer}>
-              <label htmlFor="email" className={style.label}>
-                Email
-              </label>
-              <span className={style.error}>
-                <ErrorMessage name="email" />
-              </span>
-              <Field
-                className={style.formInput}
-                type="email"
-                autoComplete="email"
-                name="email"
-                placeholder="example@gmail.com"
-                onChange={(e) => handleChange(e, formik)}
-              />
-            </div>
-            <div className={style.formContainer}>
-              <label htmlFor="password" className={style.label}>
-                Password
-              </label>
-              <span className={style.error}>
-                <ErrorMessage name="password" />
-              </span>
-              <Field
-                className={style.formInput}
-                type="password"
-                name="password"
-                placeholder="* * * * * * * *"
-                onChange={(e) => handleChange(e, formik)}
-              />
-            </div>
+            <InputItem
+              formik={formik}
+              handleChange={handleInputChange}
+              placeholder={"example@gmail.com"}
+              type={"email"}
+              name={"email"}
+              autoComplete={"email"}
+              label={"Email"}
+            />
+            <InputItem
+              formik={formik}
+              handleChange={handleInputChange}
+              placeholder={"* * * * * * * *"}
+              type={"password"}
+              name={"password"}
+              autoComplete={"password"}
+              label={"Password"}
+            />
 
             <button className={style.formButton} type="submit">
               Sign in

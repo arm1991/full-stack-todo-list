@@ -1,5 +1,5 @@
-import SectionOne from "./section-one/SectionOne";
-import SectionTwo from "./section-two/SectionTwo";
+import SectionOne from "../sections/section-one/SectionOne";
+import SectionTwo from "../sections/section-two/SectionTwo";
 import "./Main.css";
 
 const Main = ({ hideDone }) => {

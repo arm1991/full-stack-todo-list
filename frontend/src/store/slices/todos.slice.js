@@ -19,7 +19,7 @@ const todosSlice = createSlice({
     setIsEditing(state, { payload }) {
       const id = payload;
       state.data = state.data.map((todo) => {
-        if (todo._id === id) {
+        if (todo.id === id) {
           return {
             ...todo,
             isEditing: !todo.isEditing,

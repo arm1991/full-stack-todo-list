@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
-import { logout } from "../../redux/slices/auth.slice";
-import Checkbox from "./checkbox/Checkbox";
-import Title from "./title/Title";
+import { logout } from "../../store/slices/auth.slice";
+import Checkbox from "../UI/checkbox/Checkbox";
+import Title from "../UI/title/Title";
 import "./Header.css";
 
 const Header = ({ changeHideDone, hideDone }) => {
@@ -12,7 +12,7 @@ const Header = ({ changeHideDone, hideDone }) => {
   return (
     <header>
       <Checkbox changeHideDone={changeHideDone} hideDone={hideDone} />
-      <Title />
+      <Title text={"my todo list"} />
       <button className="log-out" onClick={handleLogoutClick}>
         Log out
       </button>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTodo } from "../../../redux/slices/todos.slice";
+import { addTodo } from "../../../store/slices/todos.slice";
 import "./SectionOne.css";
 
 const SectionOne = () => {

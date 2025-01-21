@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
-import { removeTodoError } from "../../../redux/slices/todos.slice";
+import { removeTodoError } from "../../../store/slices/todos.slice";
 import Todo from "./todo/Todo";
-import ErrorModal from "../../ErrorModal";
+import ErrorModal from "../../Error/ErrorModal";
 import "./SectionTwo.css";
 
 const SectionTwo = ({ hideDone }) => {
@@ -20,7 +20,7 @@ const SectionTwo = ({ hideDone }) => {
         {todoStore.data && todoStore.data.length ? (
           todoStore.data.map((todo) =>
             !hideDone || !todo?.done ? (
-              <Todo key={todo?._id?.toString()} todo={todo} />
+              <Todo key={todo?.id} todo={todo} />
             ) : null
           )
         ) : (

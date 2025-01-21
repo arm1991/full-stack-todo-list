@@ -1,0 +1,48 @@
+.formContainer {
+  display: grid;
+  grid-template-areas:
+    "label error"
+    "content content";
+  flex-direction: column;
+  position: relative;
+}
+
+.formInput {
+  grid-area: content;
+  width: 300px;
+  height: 40px;
+  border-radius: 10px;
+  border: 2px solid #e2e6ee;
+  padding: 12px 8px;
+  margin-top: 10px;
+}
+
+.label {
+  grid-area: label;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.showPassword {
+  position: absolute;
+  cursor: pointer;
+  right: 12px;
+  bottom: 6px;
+  border: none;
+  background-color: transparent;
+  width: 20px;
+
+  > svg {
+    width: 100%;
+  }
+}
+
+.error {
+  color: red;
+  grid-area: error;
+  text-align: right;
+  font-size: 16px;
+  font-weight: 400;
+  justify-self: flex-end;
+  width: max-content;
+}

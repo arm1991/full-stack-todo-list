@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { login, registration } from "../redux/slices/auth.slice";
 import { useDispatch } from "react-redux";
+import { login, registration } from "../store/slices/auth.slice";
 import Signin from "./forms/Signin";
 import Signup from "./forms/Signup";
 
@@ -9,15 +9,7 @@ const Auth = () => {
 
   const dispatch = useDispatch();
 
-  const handleRegistrationClick = ({
-    email,
-    password,
-    fullname,
-    repeatPassword,
-  }) => {
-    if (repeatPassword !== password) {
-      return "Passwords does not match";
-    }
+  const handleRegistrationClick = ({ email, password, fullname }) => {
     dispatch(registration(email, password, fullname));
   };
 
